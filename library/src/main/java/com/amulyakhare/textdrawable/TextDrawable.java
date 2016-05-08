@@ -38,6 +38,7 @@ public class TextDrawable extends ShapeDrawable {
   private final int fontSize;
   private final float radius;
   private final int borderThickness;
+  private Rect textBounds = new Rect();
 
   private TextDrawable(Builder builder) {
     super(builder.shape);
@@ -84,6 +85,7 @@ public class TextDrawable extends ShapeDrawable {
     super.draw(canvas);
     Rect r = getBounds();
 
+
     // draw border
     if (borderThickness > 0) {
       drawBorder(canvas);
@@ -97,8 +99,8 @@ public class TextDrawable extends ShapeDrawable {
     int height = this.height < 0 ? r.height() : this.height;
     int fontSize = this.fontSize < 0 ? (Math.min(width, height) / 2) : this.fontSize;
     textPaint.setTextSize(fontSize);
-    canvas.drawText(text, width / 2, height / 2 - ((textPaint.descent() + textPaint.ascent()) / 2),
-        textPaint);
+    textPaint.getTextBounds(text, 0, text.length(), textBounds);
+    canvas.drawText(text, width / 2, height / 2 - textBounds.exactCenterY(), textPaint);
 
     canvas.restoreToCount(count);
   }

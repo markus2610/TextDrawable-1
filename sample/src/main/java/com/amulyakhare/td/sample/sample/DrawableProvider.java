@@ -90,7 +90,7 @@ public class DrawableProvider {
         String text = "Bold";
         return TextDrawable.builder(mContext)
                 .beginConfig()
-                    .useFont("OpenSans-Light")
+                    .useFont("HoneyScript-Light")
                     .fontSize(toPx(15))
                     .textColor(0xfff58559)
                     .bold()
