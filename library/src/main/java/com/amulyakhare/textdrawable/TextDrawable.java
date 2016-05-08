@@ -18,6 +18,7 @@ import android.support.annotation.ColorRes;
 import android.support.annotation.DimenRes;
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import com.amulyakhare.textdrawable.util.TypefaceHelper;
 
 /**
@@ -199,8 +200,7 @@ public class TextDrawable extends ShapeDrawable {
 
     @Override
     public IConfigBuilder textColorRes(@ColorRes int color) {
-      //noinspection deprecation
-      return textColor(context.getResources().getColor(color));
+      return textColor(ContextCompat.getColor(context, color));
     }
 
     @Override
@@ -215,8 +215,8 @@ public class TextDrawable extends ShapeDrawable {
     }
 
     @Override
-    public IConfigBuilder useFont(@NonNull Typeface font) {
-      this.font = font;
+    public IConfigBuilder useFont(@NonNull String name) {
+      this.font = TypefaceHelper.get(context, name);
       return this;
     }
 
@@ -293,8 +293,7 @@ public class TextDrawable extends ShapeDrawable {
     @Override
     public TextDrawable buildRectRes(@NonNull String text, @ColorRes int colorRes) {
       rect();
-      //noinspection deprecation
-      return build(text, context.getResources().getColor(colorRes));
+      return build(text, ContextCompat.getColor(context, colorRes));
     }
 
     @Override
@@ -305,8 +304,8 @@ public class TextDrawable extends ShapeDrawable {
 
     @Override
     public TextDrawable buildRoundRectRes(@NonNull String text, @ColorRes int colorRes, @DimenRes int radiusRes) {
-      //noinspection deprecation
-      return buildRoundRect(text, context.getResources().getColor(colorRes),
+
+      return buildRoundRect(text, ContextCompat.getColor(context, colorRes),
           (int) context.getResources().getDimension(radiusRes));
     }
 
@@ -318,14 +317,14 @@ public class TextDrawable extends ShapeDrawable {
 
     @Override
     public TextDrawable buildRoundRes(@NonNull String text, @ColorRes int colorRes) {
-      //noinspection deprecation
-      return buildRound(text, context.getResources().getColor(colorRes));
+      return buildRound(text, ContextCompat.getColor(context, colorRes));
     }
 
     @Override
     public TextDrawable build(@NonNull String text, @ColorInt int color) {
-      if (this.font == null)
+      if (this.font == null) {
         this.font = TypefaceHelper.get(context, "sans-serif-light", Typeface.NORMAL);
+      }
       this.color = color;
       this.text = text;
       return new TextDrawable(this);
@@ -333,8 +332,7 @@ public class TextDrawable extends ShapeDrawable {
 
     @Override
     public TextDrawable buildRes(@NonNull String text, @ColorRes int colorRes) {
-      //noinspection deprecation
-      return build(text, context.getResources().getColor(colorRes));
+      return build(text, ContextCompat.getColor(context, colorRes));
     }
   }
 
@@ -355,7 +353,7 @@ public class TextDrawable extends ShapeDrawable {
 
     IConfigBuilder withBorderRes(@DimenRes int thickness);
 
-    IConfigBuilder useFont(@NonNull Typeface font);
+    IConfigBuilder useFont(@NonNull String name);
 
     IConfigBuilder useFont(@NonNull String name, int style);
 
